@@ -19,6 +19,13 @@ describe DockingStation do
       subject.dock(bike)
       expect(subject.release_bike).to eq bike
     end
+
+      it 'returns broken bikes' do
+        bike = Bikes.new
+        subject.dock(bike.report_broken)
+        expect(subject.release_broken_bikes).to eq [broken_bike]
+      end
+
   end
 
   describe '#release_bike' do
@@ -82,6 +89,7 @@ describe DockingStation do
     bike = double(:bike)
     expect(subject.dock(bike)).to eq [bike]
   end
+
 =begin
   describe 'Vans' do
     it 'Stores only working bikes after pickups' do

@@ -2,11 +2,15 @@ require 'vans.rb'
 
 describe Vans do
 
-  it 'picks up broken bikes' do
+  it 'picks up any bikes' do
     station = DockingStation.new
     10.times {station.dock(Bikes.new)}
+    10.times {station.dock(Bikes.new.report_broken)}
+    p "========="
+    p station.bikes
+    p "========="
 
-    expect(subject.pickup(station.bikes)).to eq subject.broken_bikes
+    expect(subject.pickup(station.release_broken_bikes)).to eq subject.broken_bikes
   end
 
 end

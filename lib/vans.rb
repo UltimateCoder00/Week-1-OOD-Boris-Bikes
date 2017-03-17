@@ -9,14 +9,8 @@ class Vans
   end
 
   def pickup(bikes)
-    bikes.map do |broken_bike|
-      if broken_bike
-        @broken_bikes << broken_bike
-      end
-    end
-
-    puts @broken_bikes
-    @broken_bikes
+    bikes.each { |bike| broken_bikes << bike if bike.broken? }
+    broken_bikes
   end
 
 end

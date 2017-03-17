@@ -18,8 +18,20 @@ class DockingStation
 
   def release_bike
     fail 'No bikes available' if empty?
-    fail 'Bike is broken' if @bikes[-1].broken?
+    fail 'Bike is broken' if @bikes.last.broken?
     @bikes.pop
+  end
+
+  def release_broken_bikes
+    broken_bikes = []
+    fail 'No bikes available' if empty?
+    @bikes.map do |bike|
+      if bike.broken?
+        broken_bikes << bike
+        @bikes.delete(bike)
+      end
+    end
+    broken_bikes
   end
 
 # Rename your attribute @bike to reflect that it will store more than one Bike instance.
