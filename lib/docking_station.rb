@@ -12,17 +12,13 @@ class DockingStation
     @bikes = []
   end
 
-  def capacity
-    @capacity
-  end
-
   def count_bikes
     @bikes.count
   end
 
   def release_bike
     fail 'No bikes available' if empty?
-    fail 'Bike is broken' if @bikes.last.broken? == true
+    fail 'Bike is broken' if @bikes[-1].broken?
     @bikes.pop
   end
 

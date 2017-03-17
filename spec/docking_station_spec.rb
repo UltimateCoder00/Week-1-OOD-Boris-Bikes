@@ -14,7 +14,8 @@ describe DockingStation do
 # subject creates an instance of that CLASS being tested
   describe '#release_bike' do
     it 'releases a bike' do
-      bike = Bikes.new
+      bike = double(:bike, broken?: false)
+      # allow(bike).to receive(:broken?).and_return(false)
       subject.dock(bike)
       expect(subject.release_bike).to eq bike
     end
@@ -24,24 +25,33 @@ describe DockingStation do
     it 'raises an error when bike method called on docking station equals empty array' do
       expect {subject.release_bike}.to raise_error "No bikes available"
     end
+
+    it  'raises an error when broken bike is released' do
+      bike = double(:bike, broken?: true, report_broken: true)
+      # allow(bike).to receive(:broken?).and_return(true)
+      # allow(bike).to receive(:report_broken).and_return(true)
+      bike.report_broken
+      subject.dock(bike)
+      expect {subject.release_bike}.to raise_error "Bike is broken"
+    end
   end
 
   describe '#dock' do
     it 'raises an error when a bike is attempted to dock in a docking station with 1 bike in.' do
-      subject.capacity.times { subject.dock Bikes.new }
-      expect {subject.dock(Bikes.new)}.to raise_error "Docking Station Full!"
+      subject.capacity.times { subject.dock double(:bike) }
+      expect {subject.dock(double(:bike))}.to raise_error "Docking Station Full!"
     end
   end
 
   describe 'initialize' do
     it 'has a variable capacpity' do
       docking_station = DockingStation.new(50)
-      50.times { docking_station.dock Bikes.new}
-      expect { docking_station.dock Bikes.new }.to raise_error 'Docking Station Full!'
+      50.times { docking_station.dock double(:bike)}
+      expect { docking_station.dock double(:bike) }.to raise_error 'Docking Station Full!'
     end
 
     subject { DockingStation.new}
-    let(:bike) { Bikes.new }
+    let(:bike) { double(:bike) }
     it 'defaults capacity' do
       DockingStation::DEFAULT_CAPACITY.times do #describe_class
         subject.dock(bike)
@@ -57,7 +67,7 @@ describe DockingStation do
   # more closely resembles feature of above [dock(bike)]
   # return the bike we dock
   it 'docks something' do
-    bike = Bikes.new
+    bike = double(:bike)
     expect(subject.dock(bike)).to eq [bike]
   end
 
@@ -69,7 +79,7 @@ describe DockingStation do
   # more closely resembles feature of above
   # def bike
   it 'returns docked bikes' do
-    bike = Bikes.new
+    bike = double(:bike)
     expect(subject.dock(bike)).to eq [bike]
   end
 

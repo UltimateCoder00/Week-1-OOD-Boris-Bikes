@@ -1,5 +1,5 @@
 class Bikes
-  
+
   def initialize(broken=false)
     @broken = broken
   end
