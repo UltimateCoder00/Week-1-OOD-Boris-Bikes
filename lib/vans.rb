@@ -9,13 +9,14 @@ class Vans
   end
 
   def pickup(bikes)
-    bikes.map! do |broken_bike|
-      if broken_bike == true
+    bikes.map do |broken_bike|
+      if broken_bike
         @broken_bikes << broken_bike
       end
     end
+
+    puts @broken_bikes
     @broken_bikes
   end
-
 
 end
